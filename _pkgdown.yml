@@ -2,4 +2,12 @@ url: https://lshpaner.github.io/kfre_r/
 destination: docs
 template:
   bootstrap: 5
+home:
+  links:
+    - text: Documentation
+      href: https://lshpaner.github.io/kfre_r/
+    - text: Source (GitHub)
+      href: https://github.com/lshpaner/kfre_r
+    - text: Issue tracker
+      href: https://github.com/lshpaner/kfre_r/issues
 
