@@ -1,8 +1,4 @@
-class_esrd_outcome <- function(df,
-                               col,
-                               years,
-                               duration_col,
-                               prefix = NULL,
+class_esrd_outcome <- function(df, col, years, duration_col, prefix = NULL,
                                create_years_col = TRUE) {
   years_col <- duration_col
   if (isTRUE(create_years_col)) {
@@ -19,9 +15,7 @@ class_esrd_outcome <- function(df,
   df
 }
 
-class_ckd_stages <- function(df,
-                             egfr_col = "eGFR",
-                             stage_col = NULL,
+class_ckd_stages <- function(df, egfr_col = "eGFR", stage_col = NULL,
                              combined_stage_col = NULL) {
   if (!is.null(stage_col)) {
     x <- df[[egfr_col]]

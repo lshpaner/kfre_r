@@ -1,5 +1,6 @@
 perform_conversions <- function(
-    df, reverse = FALSE,
+    df,
+    reverse = FALSE,
     convert_all = FALSE,
     upcr_col = NULL,
     calcium_col = NULL,

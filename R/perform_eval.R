@@ -18,7 +18,12 @@ class_esrd_outcome <- function(df,
   stopifnot(is.character(duration_col), length(duration_col) == 1)
 
   if (!col %in% names(df)) stop(sprintf("Column '%s' not found.", col))
-  if (!duration_col %in% names(df)) stop(sprintf("Column '%s' not found.", duration_col))
+  if (!duration_col %in% names(df)) {
+    stop(sprintf(
+      "Column '%s' not found.",
+      duration_col
+    ))
+  }
 
   years_col <- duration_col
   if (isTRUE(create_years_col)) {
@@ -49,7 +54,10 @@ class_ckd_stages <- function(df,
 
   if (!is.null(stage_col)) {
     eg <- df[[egfr_col]]
-    choices <- c("CKD Stage 1", "CKD Stage 2", "CKD Stage 3a", "CKD Stage 3b", "CKD Stage 4", "CKD Stage 5")
+    choices <- c(
+      "CKD Stage 1", "CKD Stage 2", "CKD Stage 3a", "CKD Stage 3b",
+      "CKD Stage 4", "CKD Stage 5"
+    )
     conds <- list(
       eg >= 90,
       eg >= 60 & eg < 90,
@@ -65,7 +73,9 @@ class_ckd_stages <- function(df,
 
   if (!is.null(combined_stage_col)) {
     eg <- df[[egfr_col]]
-    df[[combined_stage_col]] <- ifelse(eg < 60, "CKD Stage 3 - 5", "Not Classified")
+    df[[combined_stage_col]] <- ifelse(eg < 60, "CKD Stage 3 - 5",
+      "Not Classified"
+    )
   }
 
   df
@@ -157,7 +167,9 @@ eval_kfre_metrics <- function(df,
   outcomes <- character(0)
   for (yr in outcome_years) {
     cols <- grep(sprintf(".*%d_year_outcome", yr), names(df), value = TRUE)
-    if (length(cols) == 0L) stop(sprintf("%d_year_outcome must exist to derive these metrics.", yr))
+    if (length(cols) == 0L) {
+      stop(sprintf("%d_year_outcome must exist to derive these metrics.", yr))
+    }
     y_true[[length(y_true) + 1L]] <- as.integer(df[[cols[1L]]] > 0)
     outcomes <- c(outcomes, sprintf("%d_year", yr))
   }
@@ -251,13 +263,19 @@ plot_kfre_metrics <- function(df,
   valid_years <- c(2L, 5L)
   if (length(show_years) == 1L) show_years <- as.integer(show_years)
   if (any(!(as.integer(show_years) %in% valid_years))) {
-    stop(sprintf("The 'show_years' parameter must be any of %s.", paste(valid_years, collapse = ", ")))
+    stop(sprintf(
+      "The 'show_years' parameter must be any of %s.",
+      paste(valid_years, collapse = ", ")
+    ))
   }
 
   if (length(num_vars) == 1L) num_vars <- as.integer(num_vars)
   valid_plot_types <- c("auc_roc", "precision_recall", "all_plots")
   if (!(plot_type %in% valid_plot_types)) {
-    stop(sprintf("The 'plot_type' parameter must be one of %s.", paste(valid_plot_types, collapse = ", ")))
+    stop(sprintf(
+      "The 'plot_type' parameter must be one of %s.",
+      paste(valid_plot_types, collapse = ", ")
+    ))
   }
   if (isTRUE(save_plots) && is.null(image_path_png) && is.null(image_path_svg)) {
     stop("To save plots, 'image_path_png' or 'image_path_svg' must be specified.")
@@ -286,7 +304,9 @@ plot_kfre_metrics <- function(df,
   outcomes <- character(0)
   for (yr in as.integer(show_years)) {
     cols <- grep(sprintf(".*%d_year_outcome$", yr), names(df), value = TRUE)
-    if (length(cols) == 0L) stop(sprintf("No outcome columns found matching pattern for %d-year outcomes.", yr))
+    if (length(cols) == 0L) {
+      stop(sprintf("No outcome columns found matching pattern for %d-year outcomes.", yr))
+    }
     y_true[[length(y_true) + 1L]] <- df[[cols[1L]]]
     outcomes <- c(outcomes, sprintf("%d-year", yr))
   }
@@ -349,7 +369,10 @@ plot_kfre_metrics <- function(df,
 
   # base R label wrapper so we avoid adding suggests
   label_wrap <- function(x, width = 28) {
-    vapply(x, function(s) paste(strwrap(s, width = width), collapse = "\n"), character(1))
+    vapply(
+      x, function(s) paste(strwrap(s, width = width), collapse = "\n"),
+      character(1)
+    )
   }
 
   make_roc_df <- function(curr_nums) {
@@ -369,7 +392,10 @@ plot_kfre_metrics <- function(df,
           "%d-variable %s outcome (AUC = %.*f)",
           n, outcomes[i], decimal_places, auc_fast(yt, yp)
         )
-        lst[[length(lst) + 1L]] <- data.frame(fpr = fpr, tpr = tpr, model = lbl, stringsAsFactors = FALSE)
+        lst[[length(lst) + 1L]] <- data.frame(
+          fpr = fpr, tpr = tpr, model = lbl,
+          stringsAsFactors = FALSE
+        )
       }
     }
     do.call(rbind, lst)
@@ -394,7 +420,12 @@ plot_kfre_metrics <- function(df,
           "%d-variable %s outcome (AP = %.*f)",
           n, outcomes[i], decimal_places, ap_like_sklearn(yt, yp)
         )
-        lst[[length(lst) + 1L]] <- data.frame(recall = recall, precision = precision, model = lbl, stringsAsFactors = FALSE)
+        lst[[length(lst) + 1L]] <- data.frame(
+          recall = recall,
+          precision = precision,
+          model = lbl,
+          stringsAsFactors = FALSE
+        )
       }
     }
     do.call(rbind, lst)
@@ -507,7 +538,8 @@ plot_kfre_metrics <- function(df,
                   if (is.null(image_prefix)) "auc_roc_curve_combined" else image_prefix
                 )
               ),
-              plot = p_roc, width = fig_size[1], height = fig_size[2], units = "in", dpi = 300
+              plot = p_roc, width = fig_size[1], height = fig_size[2],
+              units = "in", dpi = 300
             )
           }
           if (!is.null(image_path_svg)) {
@@ -520,7 +552,8 @@ plot_kfre_metrics <- function(df,
                   if (is.null(image_prefix)) "auc_roc_curve_combined" else image_prefix
                 )
               ),
-              plot = p_roc, width = fig_size[1], height = fig_size[2], units = "in"
+              plot = p_roc, width = fig_size[1], height = fig_size[2],
+              units = "in"
             )
           }
         }
@@ -541,7 +574,8 @@ plot_kfre_metrics <- function(df,
                   if (is.null(image_prefix)) "pr_curve_combined" else image_prefix
                 )
               ),
-              plot = p_pr, width = fig_size[1], height = fig_size[2], units = "in", dpi = 300
+              plot = p_pr, width = fig_size[1], height = fig_size[2],
+              units = "in", dpi = 300
             )
           }
           if (!is.null(image_path_svg)) {
@@ -579,7 +613,8 @@ plot_kfre_metrics <- function(df,
                     if (is.null(image_prefix)) as.character(n) else image_prefix, n
                   )
                 ),
-                plot = p_roc, width = fig_size[1], height = fig_size[2], units = "in", dpi = 300
+                plot = p_roc, width = fig_size[1], height = fig_size[2],
+                units = "in", dpi = 300
               )
             }
             if (!is.null(image_path_svg)) {
