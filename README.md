@@ -317,4 +317,4 @@ doi:10.7326/M20-0529
 
 ## License
 
-`kfre` is distributed under the MIT License. See [`LICENSE`](LICENSE.md) for more information.
+`kfre` is distributed under the MIT License. See [`LICENSE`](LICENSE) for more information.
