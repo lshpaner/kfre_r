@@ -43,7 +43,7 @@ install.packages("kfre")
 
 ```r
 # install.packages("remotes")
-remotes::install_github("lshpaner/kfre")
+remotes::install_github("lshpaner/kfre_r")
 ```
 
 ## Dependencies
