@@ -7,7 +7,7 @@
 #' @param calcium_col 
 #' @param phosphate_col 
 #' @param albumin_col 
-#' @return 
+#' @return A data frame with converted columns.
 #' @export
 #' @examples
 #' # perform_conversions example

@@ -26,3 +26,5 @@ Suggests:
 Config/testthat/edition: 3
 URL: https://github.com/lshpaner/kfre
 BugReports: https://github.com/lshpaner/kfre/issues
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2

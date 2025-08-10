@@ -1,30 +1,35 @@
-#' Kidney Failure Risk Equation predictions and data frame helper.
+#' KFRE risk prediction for a single person
 #'
-#' @param age 
-#' @param sex 
-#' @param eGFR 
-#' @param uACR 
-#' @param is_north_american 
-#' @param dm 
-#' @param htn 
-#' @param albumin 
-#' @param phosphorous 
-#' @param bicarbonate 
-#' @param calcium 
-#' @param years 
-#' @return 
-#' @export
+#' Computes the Kidney Failure Risk Equation probability at 2 or 5 years.
+#'
+#' @param age Numeric age in years.
+#' @param sex Integer sex indicator, 1 for male, 0 for female.
+#' @param eGFR Estimated glomerular filtration rate, mL/min/1.73 m^2.
+#' @param uACR Urine albumin to creatinine ratio, mg/g.
+#' @param is_north_american Logical, patient from a North American cohort.
+#' @param dm Optional integer diabetes indicator, 1 yes, 0 no.
+#' @param htn Optional integer hypertension indicator, 1 yes, 0 no.
+#' @param albumin Optional serum albumin, g/dL, required for 8 variable model.
+#' @param phosphorous Optional serum phosphorus, mg/dL, 8 variable model.
+#' @param bicarbonate Optional serum bicarbonate, mmol/L, 8 variable model.
+#' @param calcium Optional serum calcium, mg/dL, 8 variable model.
+#' @param years Integer, prediction horizon, 2 or 5.
+#'
+#' @return Numeric probability between 0 and 1.
 #' @examples
-#' # risk_pred_core example
-#' # risk_pred_core()
+#' risk_pred_core(60, 1, 45, 120, TRUE, dm = 1, htn = 1, years = 2)
+#' @export
+
 risk_pred_core <- function(age, sex, eGFR, uACR, is_north_american, dm = NULL,
                            htn = NULL, albumin = NULL, phosphorous = NULL,
                            bicarbonate = NULL, calcium = NULL, years = 2) {
   six <- !is.null(dm) && !is.null(htn)
-  eight <- !is.null(albumin) 
-  && !is.null(phosphorous) 
-  && !is.null(bicarbonate) 
-  && !is.null(calcium)
+  eight <- (
+    !is.null(albumin) &&
+      !is.null(phosphorous) &&
+      !is.null(bicarbonate) &&
+      !is.null(calcium)
+  )
   if (six) {
     alpha <- list(
       `TRUE_2` = 0.9750,
@@ -41,33 +46,41 @@ risk_pred_core <- function(age, sex, eGFR, uACR, is_north_american, dm = NULL,
     dm_factor <- -0.1475
     htn_factor <- 0.1426
   } else if (eight) {
-    alpha <- list(`TRUE_2` = 0.9780, 
-                  `TRUE_5` = 0.9301, 
-                  `FALSE_2` = 0.9827, 
-                  `FALSE_5` = 0.9245)
+    alpha <- list(
+      `TRUE_2` = 0.9780,
+      `TRUE_5` = 0.9301,
+      `FALSE_2` = 0.9827,
+      `FALSE_5` = 0.9245
+    )
     rf <- list(age = -0.1992, sex = 0.1602, eGFR = -0.4919, uACR = 0.3364)
     albumin_factor <- -0.3441
     phosph_factor <- +0.2604
     bicarb_factor <- -0.07354
     calcium_factor <- -0.2228
   } else {
-    alpha <- list(`TRUE_2` = 0.9750, `TRUE_5` = 0.9240, `FALSE_2` = 0.9832, 
-                  `FALSE_5` = 0.9365)
+    alpha <- list(
+      `TRUE_2` = 0.9750, `TRUE_5` = 0.9240, `FALSE_2` = 0.9832,
+      `FALSE_5` = 0.9365
+    )
     rf <- list(age = -0.2201, sex = 0.2467, eGFR = -0.5567, uACR = 0.4510)
   }
   uACR <- pmax(uACR, 1e-6)
   log_uACR <- log(uACR)
-  risk_score <- rf$age * (age / 10 - 7.036) + 
-    rf$sex * (sex - 0.5642) + 
-    rf$eGFR * (eGFR / 5 - 7.222) + 
+  risk_score <- rf$age * (age / 10 - 7.036) +
+    rf$sex * (sex - 0.5642) +
+    rf$eGFR * (eGFR / 5 - 7.222) +
     rf$uACR * (log_uACR - 5.137)
-  if (six) risk_score <- risk_score + dm_factor * (dm - 0.5106) + 
-    htn_factor * (htn - 0.8501)
-  if (eight) risk_score <- risk_score + 
-    albumin_factor * (albumin - 3.997) + 
-    phosph_factor * (phosphorous - 3.916) + 
-    bicarb_factor * (bicarbonate - 25.57) + 
-    calcium_factor * (calcium - 9.355)
+  if (six) {
+    risk_score <- risk_score + dm_factor * (dm - 0.5106) +
+      htn_factor * (htn - 0.8501)
+  }
+  if (eight) {
+    risk_score <- risk_score +
+      albumin_factor * (albumin - 3.997) +
+      phosph_factor * (phosphorous - 3.916) +
+      bicarb_factor * (bicarbonate - 25.57) +
+      calcium_factor * (calcium - 9.355)
+  }
   a <- alpha[[paste0(isTRUE(is_north_american), "_", as.integer(years))]]
   1 - (a^exp(risk_score))
 }
@@ -79,91 +92,107 @@ RiskPredictor <- R6::R6Class(
       self$df <- df
       self$columns <- columns
     },
-    predict_kfre = function(years, 
-                            is_north_american, 
-                            use_extra_vars = FALSE, 
-                            num_vars = 4, 
+    predict_kfre = function(years,
+                            is_north_american,
+                            use_extra_vars = FALSE,
+                            num_vars = 4,
                             precision = NULL) {
       cols <- self$columns
       d <- self$df
       sex_num <- as.integer(tolower(d[[cols$sex]]) == "male")
       if (use_extra_vars && num_vars == 6) {
-        res <- risk_pred_core(d[[cols$age]], sex_num, d[[cols$eGFR]], 
-                              d[[cols$uACR]], is_north_american, 
-                              dm = d[[cols$dm]], htn = d[[cols$htn]], 
-                              years = years)
+        res <- risk_pred_core(d[[cols$age]], sex_num, d[[cols$eGFR]],
+          d[[cols$uACR]], is_north_american,
+          dm = d[[cols$dm]], htn = d[[cols$htn]],
+          years = years
+        )
       } else if (use_extra_vars && num_vars == 8) {
-        res <- risk_pred_core(d[[cols$age]], sex_num, d[[cols$eGFR]], 
-                              d[[cols$uACR]], is_north_american, 
-                              albumin = d[[cols$albumin]], 
-                              phosphorous = d[[cols$phosphorous]], 
-                              bicarbonate = d[[cols$bicarbonate]], 
-                              calcium = d[[cols$calcium]], 
-                              years = years)
+        res <- risk_pred_core(d[[cols$age]], sex_num, d[[cols$eGFR]],
+          d[[cols$uACR]], is_north_american,
+          albumin = d[[cols$albumin]],
+          phosphorous = d[[cols$phosphorous]],
+          bicarbonate = d[[cols$bicarbonate]],
+          calcium = d[[cols$calcium]],
+          years = years
+        )
       } else {
-        res <- risk_pred_core(d[[cols$age]], sex_num, d[[cols$eGFR]], 
-                              d[[cols$uACR]], is_north_american, 
-                              years = years)
+        res <- risk_pred_core(d[[cols$age]], sex_num, d[[cols$eGFR]],
+          d[[cols$uACR]], is_north_american,
+          years = years
+        )
       }
       if (is.null(precision)) res else round(res, precision)
     },
-    kfre_person = function(age, is_male, eGFR, uACR, is_north_american, 
-                           years = 2, dm = NULL, htn = NULL, albumin = NULL, 
-                           phosphorous = NULL, bicarbonate = NULL, 
+    kfre_person = function(age, is_male, eGFR, uACR, is_north_american,
+                           years = 2, dm = NULL, htn = NULL, albumin = NULL,
+                           phosphorous = NULL, bicarbonate = NULL,
                            calcium = NULL, precision = NULL) {
-      res <- risk_pred_core(age, as.integer(is_male), eGFR, uACR, 
-                            is_north_american, dm = dm, htn = htn, 
-                            albumin = albumin, phosphorous = phosphorous, 
-                            bicarbonate = bicarbonate, calcium = calcium, 
-                            years = years)
+      res <- risk_pred_core(age, as.integer(is_male), eGFR, uACR,
+        is_north_american,
+        dm = dm, htn = htn,
+        albumin = albumin, phosphorous = phosphorous,
+        bicarbonate = bicarbonate, calcium = calcium,
+        years = years
+      )
       if (is.null(precision)) res else round(res, precision)
     }
   )
 )
-#' Kidney Failure Risk Equation predictions and data frame helper.
 #'
-#' @param df 
-#' @param age_col 
-#' @param sex_col 
-#' @param eGFR_col 
-#' @param uACR_col 
-#' @param dm_col 
-#' @param htn_col 
-#' @param albumin_col 
-#' @param phosphorous_col 
-#' @param bicarbonate_col 
-#' @param calcium_col 
-#' @param num_vars 
-#' @param years 
-#' @param 5 
-#' @return 
-#' @export
+#' Add KFRE risk columns to a data frame
+#'
+#' Adds KFRE risk columns for selected model sizes and horizons using
+#' the 4, 6, or 8 variable equations.
+#'
+#' @param df Data frame with predictor columns.
+#' @param age_col Column name for age.
+#' @param sex_col Column name for sex, text or integer accepted.
+#' @param eGFR_col Column name for eGFR, mL/min/1.73 m^2.
+#' @param uACR_col Column name for uACR, mg/g.
+#' @param dm_col Optional column name for diabetes indicator.
+#' @param htn_col Optional column name for hypertension indicator.
+#' @param albumin_col Optional column name for serum albumin, g/dL.
+#' @param phosphorous_col Optional column name for serum phosphorus, mg/dL.
+#' @param bicarbonate_col Optional column name for bicarbonate, mmol/L.
+#' @param calcium_col Optional column name for calcium, mg/dL.
+#' @param num_vars Integer or vector, one of 4, 6, 8.
+#' @param years Integer or vector, any of 2, 5.
+#' @param is_north_american Logical, use North American calibration.
+#' @param copy Logical, if TRUE work on a copy of `df`.
+#' @param precision Optional integer, digits to round probabilities.
+#'
+#' @return The input data frame with added `kfre_<n>var_<y>year` columns.
 #' @examples
-#' # add_kfre_risk_col example
-#' # add_kfre_risk_col()
-add_kfre_risk_col <- function(df, age_col = NULL, sex_col = NULL, 
-                              eGFR_col = NULL, uACR_col = NULL, dm_col = NULL, 
-                              htn_col = NULL, albumin_col = NULL, 
-                              phosphorous_col = NULL, bicarbonate_col = NULL, 
-                              calcium_col = NULL, num_vars = 8, years = c(2, 5), 
-                              is_north_american = FALSE, copy = TRUE, 
+#' # add_kfre_risk_col(df, "age", "sex", "eGFR", "uACR", num_vars = 6, years = 2)
+#' @export
+
+add_kfre_risk_col <- function(df, age_col = NULL, sex_col = NULL,
+                              eGFR_col = NULL, uACR_col = NULL, dm_col = NULL,
+                              htn_col = NULL, albumin_col = NULL,
+                              phosphorous_col = NULL, bicarbonate_col = NULL,
+                              calcium_col = NULL, num_vars = 8, years = c(2, 5),
+                              is_north_american = FALSE, copy = TRUE,
                               precision = NULL) {
   df_used <- if (isTRUE(copy)) data.frame(df, check.names = FALSE) else df
-  cols <- list(age = age_col, sex = sex_col, eGFR = eGFR_col, 
-               uACR = uACR_col, dm = dm_col, htn = htn_col, 
-               albumin = albumin_col, phosphorous = phosphorous_col, 
-               bicarbonate = bicarbonate_col, calcium = calcium_col)
+  cols <- list(
+    age = age_col, sex = sex_col, eGFR = eGFR_col,
+    uACR = uACR_col, dm = dm_col, htn = htn_col,
+    albumin = albumin_col, phosphorous = phosphorous_col,
+    bicarbonate = bicarbonate_col, calcium = calcium_col
+  )
   rp <- RiskPredictor$new(df = df_used, columns = cols)
   nvars <- if (identical(num_vars, "all")) c(4, 6, 8) else as.integer(num_vars)
   yrs <- if (identical(years, "all")) c(2, 5) else as.integer(years)
   for (nv in nvars) {
     for (yy in yrs) {
       cname <- sprintf("kfre_%svar_%syear", nv, yy)
-      df_used[[cname]] <- rp$predict_kfre(years = yy, 
-                                          is_north_american = is_north_american, 
-                                          use_extra_vars = (nv > 4), 
-                                          num_vars = nv, 
-                                          precision = precision)
+      df_used[[cname]] <- rp$predict_kfre(
+        years = yy,
+        is_north_american = is_north_american,
+        use_extra_vars = (nv > 4),
+        num_vars = nv,
+        precision = precision
+      )
     }
   }
   df_used

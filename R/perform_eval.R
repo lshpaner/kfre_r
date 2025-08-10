@@ -6,18 +6,7 @@
 # -----------------------------------------------------------
 # ESRD outcome
 # -----------------------------------------------------------
-#' Evaluation utilities for ROC, PR, and summary metrics.
-#'
-#' @param df 
-#' @param col 
-#' @param years 
-#' @param duration_col 
-#' @param prefix 
-#' @param create_years_col 
-#' @return 
-#' @examples
-#' # class_esrd_outcome example
-#' # class_esrd_outcome()
+#' @noRd
 class_esrd_outcome <- function(df,
                                col,
                                years,
@@ -57,16 +46,7 @@ class_esrd_outcome <- function(df,
 # -----------------------------------------------------------
 # CKD stages
 # -----------------------------------------------------------
-#' Evaluation utilities for ROC, PR, and summary metrics.
-#'
-#' @param df 
-#' @param egfr_col 
-#' @param stage_col 
-#' @param combined_stage_col 
-#' @return 
-#' @examples
-#' # class_ckd_stages example
-#' # class_ckd_stages()
+#' @noRd
 class_ckd_stages <- function(df,
                              egfr_col = "eGFR",
                              stage_col = NULL,
@@ -108,14 +88,7 @@ class_ckd_stages <- function(df,
 # -----------------------------------------------------------
 
 # Fast AUC via rank-sum
-#' Evaluation utilities for ROC, PR, and summary metrics.
-#'
-#' @param y_true 
-#' @param y_prob 
-#' @return 
-#' @examples
-#' # .auc_fast example
-#' # .auc_fast()
+#' @noRd
 .auc_fast <- function(y_true, y_prob) {
   o <- order(y_prob, decreasing = TRUE)
   y <- as.integer(y_true[o] > 0)
@@ -129,14 +102,7 @@ class_ckd_stages <- function(df,
 }
 
 # sklearn-compatible Average Precision, no envelope
-#' Evaluation utilities for ROC, PR, and summary metrics.
-#'
-#' @param y_true 
-#' @param y_prob 
-#' @return 
-#' @examples
-#' # .ap_like_sklearn example
-#' # .ap_like_sklearn()
+#' @noRd
 .ap_like_sklearn <- function(y_true, y_prob) {
   if (length(y_true) == 0L) {
     return(NA_real_)
@@ -179,16 +145,17 @@ class_ckd_stages <- function(df,
 # -----------------------------------------------------------
 # Metrics table
 # -----------------------------------------------------------
-#' Evaluation utilities for ROC, PR, and summary metrics.
+#' Summarize KFRE performance metrics by model size and horizon
 #'
-#' @param df 
-#' @param n_var_list 
-#' @param outcome_years 
-#' @param decimal_places 
-#' @return 
-#' @examples
-#' # eval_kfre_metrics example
-#' # eval_kfre_metrics()
+#' Builds a wide table of Precision, Sensitivity, Specificity, AUC, Brier,
+#' and Average Precision for specified KFRE variants at 2 and 5 years.
+#'
+#' @param df Data frame with truth and probability columns.
+#' @param n_var_list Integer vector of models to evaluate, any of 4, 6, 8.
+#' @param outcome_years Integer vector of horizons, any of 2, 5.
+#' @param decimal_places Integer digits to round displayed values.
+#' @return Data frame of metrics with one column per model-horizon.
+#' @export
 eval_kfre_metrics <- function(df,
                               n_var_list,
                               outcome_years = 2,
@@ -290,16 +257,29 @@ eval_kfre_metrics <- function(df,
 # -----------------------------------------------------------
 # Plotting: ROC and PR curves with a dedicated bottom legend panel
 # -----------------------------------------------------------
-#' Evaluation utilities for ROC, PR, and summary metrics.
+#' Plot ROC and Precision Recall curves for KFRE variants
 #'
-#' @param df 
-#' @param num_vars 
-#' @param fig_size 
-#' @param 6 
-#' @return 
-#' @examples
-#' # plot_kfre_metrics example
-#' # plot_kfre_metrics()
+#' Draws ROC and PR curves for the selected models and horizons and returns
+#' a list of ggplot objects when `mode` is "both". When `mode` is not "both",
+#' the plots are drawn and the function returns `NULL` invisibly.
+#'
+#' @param df Data frame containing model probabilities and outcomes.
+#' @param num_vars Integer vector, KFRE model sizes to plot, any of 4, 6, 8.
+#' @param fig_size Numeric length 2, width and height passed to the device.
+#' @param mode Character, "both" to return plots, otherwise draw only.
+#' @param image_path_png Optional output directory for PNG files.
+#' @param image_path_svg Optional output directory for SVG files.
+#' @param image_prefix Optional filename prefix for saved plots.
+#' @param bbox_inches Character, passed through for saving.
+#' @param plot_type Character, select plots to render.
+#' @param save_plots Logical, save plots to disk if TRUE.
+#' @param show_years Integer vector, horizons to show, any of 2, 5.
+#' @param plot_combinations Logical, if TRUE produce pairwise overlays.
+#' @param show_subplots Logical, arrange plots in subplots when TRUE.
+#' @param decimal_places Integer digits to round annotations.
+#' @param open_new_device Logical, open a new device before plotting.
+#' @return List of ggplot objects when mode == "both", otherwise NULL.
+#' @export
 
 plot_kfre_metrics <- function(df,
                               num_vars,
@@ -385,14 +365,7 @@ plot_kfre_metrics <- function(df,
   }
 
   # ---- helpers ----
-#' Evaluation utilities for ROC, PR, and summary metrics.
-#'
-#' @param yt 
-#' @param yp 
-#' @return 
-#' @examples
-#' # auc_fast example
-#' # auc_fast()
+#' @noRd
   auc_fast <- function(yt, yp) {
     o <- order(yp, decreasing = TRUE)
     y <- as.integer(yt[o] > 0)
@@ -406,14 +379,7 @@ plot_kfre_metrics <- function(df,
   }
 
   # sklearn-like AP, no envelope
-#' Evaluation utilities for ROC, PR, and summary metrics.
-#'
-#' @param yt 
-#' @param yp 
-#' @return 
-#' @examples
-#' # ap_like_sklearn example
-#' # ap_like_sklearn()
+#' @noRd
   ap_like_sklearn <- function(yt, yp) {
     if (length(yt) == 0L) {
       return(NA_real_)
@@ -442,27 +408,14 @@ plot_kfre_metrics <- function(df,
   }
 
   # base R label wrapper so we avoid adding suggests
-#' Evaluation utilities for ROC, PR, and summary metrics.
-#'
-#' @param x 
-#' @param width 
-#' @return 
-#' @examples
-#' # label_wrap example
-#' # label_wrap()
+#' @noRd
   label_wrap <- function(x, width = 28) {
     vapply(
       x, function(s) paste(strwrap(s, width = width), collapse = "\n"),
       character(1)
     )
   }
-#' Evaluation utilities for ROC, PR, and summary metrics.
-#'
-#' @param curr_nums 
-#' @return 
-#' @examples
-#' # make_roc_df example
-#' # make_roc_df()
+#' @noRd
 
   make_roc_df <- function(curr_nums) {
     lst <- list()
@@ -489,13 +442,7 @@ plot_kfre_metrics <- function(df,
     }
     do.call(rbind, lst)
   }
-#' Evaluation utilities for ROC, PR, and summary metrics.
-#'
-#' @param curr_nums 
-#' @return 
-#' @examples
-#' # make_pr_df example
-#' # make_pr_df()
+#' @noRd
 
   make_pr_df <- function(curr_nums) {
     lst <- list()
@@ -534,40 +481,21 @@ plot_kfre_metrics <- function(df,
   gg <- ggplot2::ggplot
 
   # dynamic legend columns
-#' Evaluation utilities for ROC, PR, and summary metrics.
-#'
-#' @param n_items 
-#' @return 
-#' @examples
-#' # legend_ncol_for example
-#' # legend_ncol_for()
+#' @noRd
   legend_ncol_for <- function(n_items) {
     # square-ish grid: 2 columns up to 4 items, 3 up to 9, then 4
     if (n_items <= 4) 2 else if (n_items <= 9) 3 else 4
   }
 
   # choose color palette per plot using Dark2 hues
-#' Evaluation utilities for ROC, PR, and summary metrics.
-#'
-#' @param n_items 
-#' @return 
-#' @examples
-#' # color_scale_for example
-#' # color_scale_for()
+#' @noRd
   color_scale_for <- function(n_items) {
     ggplot2::scale_color_manual(
       values = grDevices::hcl.colors(n_items, palette = "Dark2"),
       labels = function(l) label_wrap(l, width = if (fig_size[1] <= 8) 26 else 34)
     )
   }
-#' Evaluation utilities for ROC, PR, and summary metrics.
-#'
-#' @param dat 
-#' @param title_suffix 
-#' @return 
-#' @examples
-#' # build_roc_plot example
-#' # build_roc_plot()
+#' @noRd
 
   build_roc_plot <- function(dat, title_suffix) {
     n_items <- length(unique(dat$model))
@@ -596,14 +524,7 @@ plot_kfre_metrics <- function(df,
       )
     p + ggplot2::guides(color = ggplot2::guide_legend(ncol = legend_ncol_for(n_items)))
   }
-#' Evaluation utilities for ROC, PR, and summary metrics.
-#'
-#' @param dat 
-#' @param title_suffix 
-#' @return 
-#' @examples
-#' # build_pr_plot example
-#' # build_pr_plot()
+#' @noRd
 
   build_pr_plot <- function(dat, title_suffix) {
     n_items <- length(unique(dat$model))

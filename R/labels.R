@@ -6,7 +6,7 @@
 #' @param duration_col 
 #' @param prefix 
 #' @param create_years_col 
-#' @return 
+#' @return The modified data frame with added label columns.
 #' @export
 #' @examples
 #' # class_esrd_outcome example
@@ -33,7 +33,7 @@ class_esrd_outcome <- function(df, col, years, duration_col, prefix = NULL,
 #' @param egfr_col 
 #' @param stage_col 
 #' @param combined_stage_col 
-#' @return 
+#' @return The modified data frame with added label columns.
 #' @export
 #' @examples
 #' # class_ckd_stages example
