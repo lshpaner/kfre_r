@@ -3,7 +3,13 @@ Package: kfre
 Title: KFRE Risk Prediction Tools (R)
 Version: 0.0.1
 Authors@R:
-    person("Leonid", "Shpaner", , "lshpaner@ucla.edu", role = c("aut", "cre"))
+    c(person("Leonid", "Shpaner",
+             email = "lshpaner@ucla.edu",
+             role = c("aut", "cre"),
+             comment = c(
+               ORCID = "https://orcid.org/0009-0007-5311-8095",
+               URL   = "https://leonshpaner.com"
+             )))
 Description: Implements the Kidney Failure Risk Equation (KFRE; Tangri et
     al.)  to compute 2- and 5-year kidney failure risk (4-, 6-, and
     8-variable models), append risk columns to data frames, classify CKD
@@ -30,3 +36,4 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+VignetteBuilder: knitr

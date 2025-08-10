@@ -28,3 +28,7 @@ inst/doc/
 vignettes/*.html
 vignettes/*.pdf
 
+inst/doc
+/doc/
+/Meta/
+docs

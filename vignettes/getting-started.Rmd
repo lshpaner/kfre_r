@@ -1,0 +1,57 @@
+---
+title: "kfre: Getting Started"
+author: "Author: Leonid Shpaner <br> Email: <lshpaner@ucla.edu> <br> ORCID: <https://orcid.org/0009-0007-5311-8095> <br> Website: <https://www.leonshpaner.com>"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{kfre: Getting Started}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse=TRUE, comment="#>", fig.width=7, fig.height=4)
+set.seed(1)
+library(kfre)
+```
+
+## Quick start
+
+
+```{r}
+toy <- data.frame(
+  age=c(55,72), sex_txt=c("male","female"),
+  eGFR=c(45,28), uACR=c(120,800),
+  dm=c(1,0), htn=c(1,1),
+  albumin=c(4.2,3.4), phosphorous=c(3.3,4.6),
+  bicarbonate=c(24,22), calcium=c(9.1,9.8)
+)
+
+rp <- kfre:::RiskPredictor$new(
+  df = toy,
+  columns = list(age="age", sex="sex_txt", eGFR="eGFR", uACR="uACR",
+                 dm="dm", htn="htn", albumin="albumin", phosphorous="phosphorous",
+                 bicarbonate="bicarbonate", calcium="calcium")
+)
+
+rp$predict_kfre(years=2, is_north_american=TRUE, num_vars=4)
+```
+
+```{r}
+toy2 <- kfre::add_kfre_risk_col(toy, "age","sex_txt","eGFR","uACR",
+                                dm_col="dm", htn_col="htn",
+                                albumin_col="albumin", phosphorous_col="phosphorous",
+                                bicarbonate_col="bicarbonate", calcium_col="calcium",
+                                num_vars=c(4,6,8), years=c(2,5), is_north_american=TRUE)
+
+head(toy2)
+```
+
