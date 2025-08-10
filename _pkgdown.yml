@@ -1,4 +1,5 @@
 url: https://lshpaner.github.io/kfre_r/
+destination: docs
 template:
   bootstrap: 5
 
