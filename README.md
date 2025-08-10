@@ -53,7 +53,7 @@ Suggested for tests/vignettes: `testthat (>= 3.0.0)`, `knitr`, `rmarkdown`
 
 ## Quick Start
 
-1. Toy data
+### 1. Toy data
 
 ```r
 toy <- data.frame(
@@ -84,7 +84,7 @@ cols <- list(
 )
 ```
 
-2. Vectorized predictions with `RiskPredictor`
+### 2. Vectorized predictions with `RiskPredictor`
 
 ```r
 rp <- RiskPredictor$new(df = toy, columns = cols)
@@ -112,7 +112,7 @@ p6_5y
 p8_2y
 ```
 
-3. Single-person predictions
+### 3. Single-person predictions
 
 ```r
 # Male, 55yo, 2-year risk (4-var)
@@ -139,7 +139,7 @@ rp$kfre_person(
 )
 ```
 
-4. Add KFRE risk columns to a `data.frame`
+### 4. Add KFRE risk columns to a `data.frame`
 
 ```r
 toy_kfre <- add_kfre_risk_col(
@@ -168,7 +168,7 @@ head(toy_kfre)
 # kfre_8var_2year, kfre_8var_5year
 ```
 
-5. CKD staging & ESRD outcome labels
+### 5. CKD staging & ESRD outcome labels
 
 ```r
 # ESRD outcome within 2 years (duration is in days → converted to years)
@@ -200,7 +200,7 @@ table(out$stage)
 table(out$stage_combined)
 ```
 
-6. uPCR → uACR conversion
+### 6. uPCR → uACR conversion
 
 ```r
 df_pcr <- data.frame(
@@ -222,7 +222,7 @@ acr <- upcr_uacr(
 acr
 ```
 
-7. Evaluation metrics (AUC-ROC, AP, Brier…)
+### 7. Evaluation metrics (AUC-ROC, AP, Brier…)
 
 Your data.frame must include:
 
@@ -241,7 +241,7 @@ met
 # Rows: Metrics; Cols: "{2_year|5_year}_{4|6|8}_var_kfre"
 ```
 
-8. Plot ROC / PR curves
+### 8. Plot ROC / PR curves
 
 ```r
 # Basic: compute & plot both ROC and PR (no files written)
