@@ -1,130 +1,45 @@
+# inst/CITATION
+
 citHeader("To cite package 'kfre' in publications use:")
 
-meta <- utils::packageDescription("kfre")
-yr <- if (!is.null(meta$Date)) {
-  substr(meta$Date, 1, 4)
-} else if (!is.null(meta[["Date/Publication"]])) {
-  substr(meta[["Date/Publication"]], 1, 4)
-} else {
-  format(Sys.Date(), "%Y")
-}
-url <- if (!is.null(meta$URL)) meta$URL else
-  "https://github.com/<your-user>/kfre"
-
-## Package manual
-citEntry(
-  entry = "Manual",
-  title = "kfre: KFRE Risk Prediction Tools (R)",
-  author = personList(
-    person(given = "Leonid", family = "Shpaner", role = c("aut", "cre"))
-  ),
-  year = yr,
-  note = sprintf("R package version %s", meta$Version),
-  url  = url,
-  textVersion = paste(
-    sprintf("Shpaner, L. (%s). kfre: KFRE Risk Prediction Tools (R).", yr),
-    sprintf("R package version %s.", meta$Version),
-    url
-  )
+# Package entry (static; no packageDescription())
+bibentry(
+  bibtype = "Manual",
+  title   = "kfre: KFRE Risk Prediction Tools (R)",
+  author  = person("Leonid", "Shpaner"),
+  year    = format(Sys.Date(), "%Y"),
+  note    = "R package",
+  url     = "https://lshpaner.github.io/kfre_r/"
 )
 
-## KFRE development (JAMA 2011)
-citEntry(
-  entry  = "Article",
-  title  = paste(
-    "A predictive model for progression of chronic kidney disease to",
-    "kidney failure"
-  ),
-  author = personList(
-    person("Navdeep", "Tangri"),
-    person("Lesley A.", "Stevens"),
-    person("John L.", "Griffith"),
-    person("Hicham", "Tighiouart"),
-    person("Ognjenka", "Djurdjev"),
-    person("David", "Naimark"),
-    person("Adeera", "Levin"),
-    person("Andrew S.", "Levey")
-  ),
-  journal = "JAMA",
-  year    = "2011",
-  volume  = "305",
-  number  = "15",
-  pages   = "1553-1559",
-  doi     = "10.1001/jama.2011.451",
-  textVersion = paste(
-    "Tangri N, Stevens LA, Griffith JL, et al.",
-    "A predictive model for progression of chronic kidney disease to",
-    "kidney failure. JAMA. 2011;305(15):1553-1559.",
-    "doi:10.1001/jama.2011.451."
-  )
+# Tangri 2011
+bibentry(
+  bibtype = "Article",
+  title   = "A predictive model for progression of chronic kidney disease to kidney failure",
+  author  = c(person("Navdeep","Tangri"), person("Lesley A.","Stevens"),
+              person("John L.","Griffith"), person("Hassan","Tighiouart"),
+              person("Ognjenka","Djurdjev"), person("Dina","Naimark"),
+              person("Adeera","Levin"), person("Andrew S.","Levey")),
+  journal = "JAMA", year = "2011", volume = "305", number = "15",
+  pages   = "1553--1559", doi = "10.1001/jama.2011.451"
 )
 
-## KFRE multinational validation (JAMA 2016)
-citEntry(
-  entry  = "Article",
-  title  = paste(
-    "Multinational assessment of accuracy of equations for predicting risk",
-    "of kidney failure: A meta-analysis"
-  ),
-  author = personList(
-    person("Navdeep", "Tangri"),
-    person("Morgan E.", "Grams"),
-    person("Andrew S.", "Levey"),
-    person("Josef", "Coresh")
-    ## additional coauthors abbreviated
-  ),
-  journal = "JAMA",
-  year    = "2016",
-  volume  = "315",
-  number  = "2",
-  pages   = "164-174",
-  doi     = "10.1001/jama.2015.18202",
-  textVersion = paste(
-    "Tangri N, Grams ME, Levey AS, Coresh J, et al.",
-    "Multinational assessment of accuracy of equations for predicting risk",
-    "of kidney failure: A meta-analysis. JAMA. 2016;315(2):164-174.",
-    "doi:10.1001/jama.2015.18202."
-  )
+# Tangri 2016
+bibentry(
+  bibtype = "Article",
+  title   = "Multinational assessment of accuracy of equations for predicting risk of kidney failure: A meta-analysis",
+  author  = c(person("Navdeep","Tangri"), person("Morgan E.","Grams"),
+              person("Andrew S.","Levey"), person("Josef","Coresh")),
+  journal = "JAMA", year = "2016", volume = "315", number = "2",
+  pages   = "164--174", doi = "10.1001/jama.2015.18202"
 )
 
-## UPCR to UACR conversion used by `upcr_uacr()`
-citEntry(
-  entry  = "Article",
-  title  = paste(
-    "Conversion of urine protein-creatinine ratio or urine dipstick protein",
-    "to urine albumin-creatinine ratio for use in chronic kidney disease",
-    "screening and prognosis"
-  ),
-  author = personList(
-    person("K.", "Sumida"),
-    person("G. N.", "Nadkarni"),
-    person("M. E.", "Grams"),
-    person("Y.", "Sang"),
-    person("S. H.", "Ballew"),
-    person("J.", "Coresh"),
-    person("K.", "Matsushita")
-    ## additional coauthors abbreviated
-  ),
-  journal = "Annals of Internal Medicine",
-  year    = "2020",
-  volume  = "173",
-  number  = "6",
-  pages   = "426-435",
-  doi     = "10.7326/M20-0529",
-  textVersion = paste(
-    "Sumida K, Nadkarni GN, Grams ME, et al.",
-    "Conversion of urine protein-creatinine ratio or urine dipstick",
-    "protein to urine albumin-creatinine ratio for use in CKD screening",
-    "and prognosis. Ann Intern Med. 2020;173(6):426-435.",
-    "doi:10.7326/M20-0529."
-  )
-)
-
-citFooter(
-  paste(
-    "KFRE implementations in kfre follow Tangri et al. (2011) and the",
-    "multinational validation (2016)."
-  ),
-  "The UPCR to UACR converter `upcr_uacr()` implements Sumida et al. (2020).",
-  "Please cite the relevant papers when reporting results from these functions."
+# Sumida 2020 (UPCR→UACR)
+bibentry(
+  bibtype = "Article",
+  title   = "Conversion of urine protein-creatinine ratio or urine dipstick protein to urine albumin-creatinine ratio for use in CKD screening and prognosis",
+  author  = c(person("Kevin","Sumida"), person("Girish N.","Nadkarni"),
+              person("Morgan E.","Grams")),
+  journal = "Annals of Internal Medicine", year = "2020",
+  volume = "173", number = "6", pages = "426--435", doi = "10.7326/M20-0529"
 )

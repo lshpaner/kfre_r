@@ -1,15 +1,12 @@
 Type: Package
 Package: kfre
-Title: KFRE Risk Prediction Tools (R)
+Title: Title: Kidney Failure Risk Equation (KFRE) Tools
 Version: 0.0.1
 Authors@R:
-    c(person("Leonid", "Shpaner",
-             email = "lshpaner@ucla.edu",
-             role = c("aut", "cre"),
-             comment = c(
-               ORCID = "https://orcid.org/0009-0007-5311-8095",
-               URL   = "https://www.leonshpaner.com"
-             )))
+    person("Leonid","Shpaner", email="lshpaner@ucla.edu",
+           role = c("aut","cre"),
+           comment = c(ORCID = "0009-0007-5311-8095",
+                       URL   = "https://www.leonshpaner.com"))
 Description: Implements the Kidney Failure Risk Equation (KFRE; Tangri et
     al.)  to compute 2- and 5-year kidney failure risk (4-, 6-, and
     8-variable models), append risk columns to data frames, classify CKD
