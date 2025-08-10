@@ -1,5 +1,26 @@
 <img src="https://raw.githubusercontent.com/lshpaner/kfreR/refs/heads/main/assets/kfre_logo_r.svg" width="200" style="border: none; outline: none; box-shadow: none;" oncontextmenu="return false;">
 
+## Table of Contents
+
+- [KFRE Risk Prediction Tools (R)](#kfre-risk-prediction-tools-r)
+- [Installation](#installation)
+- [GitHub (Development)](#github-development)
+- [Dependencies](#dependencies)
+- [Quick Start](#quick-start)
+  1. [Toy Data](#1-toy-data)
+  2. [Vectorized Predictions with `RiskPredictor`](#2-vectorized-predictions-with-riskpredictor)
+  3. [Single-Person Predictions](#3-single-person-predictions)
+  4. [Add KFRE Risk Columns to a DataFrame](#4-add-kfre-risk-columns-to-a-dataframe)
+  5. [CKD Staging & ESRD Outcome Labels](#5-ckd-staging--esrd-outcome-labels)
+  6. [uPCR → uACR Conversion](#6-upcr--uacr-conversion)
+  7. [Evaluation Metrics (AUC-ROC, AP, Brier…)](#7-evaluation-metrics-auc-roc-ap-brier)
+  8. [Plot ROC / PR Curves](#8-plot-roc--pr-curves)
+- [Running Tests](#running-tests)
+- [API Surface (Exports)](#api-surface-exports)
+- [Notes on Parity with Python](#notes-on-parity-with-python)
+- [References](#references)
+- [License](#license)
+
 
 ## KFRE Risk Prediction Tools (R)
 
@@ -296,4 +317,4 @@ doi:10.7326/M20-0529
 
 ## License
 
-MIT © Leonid Shpaner
+`kfre` is distributed under the MIT License. See [`LICENSE`](LICENSE.md) for more information.
