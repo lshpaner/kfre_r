@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/lshpaner/kfreR/refs/heads/main/assets/kfre_logo_r.svg" width="200" style="border: none; outline: none; box-shadow: none;" oncontextmenu="return false;">
+<img src="https://raw.githubusercontent.com/lshpaner/kfre_r/refs/heads/main/assets/kfre_logo_r.svg" width="200" style="border: none; outline: none; box-shadow: none;" oncontextmenu="return false;">
 
 ## Table of Contents
 

@@ -12,10 +12,10 @@
 #'
 #' @author Leonid Shpaner \email{lshpaner@ucla.edu}
 #'   (\href{https://orcid.org/0009-0007-5311-8095}{ORCID}) \cr
-#'   \url{https://github.com/lshpaner/kfreR} \cr
+#'   \url{https://github.com/lshpaner/kfre_r} \cr
 #'   \url{https://www.leonshpaner.com/}
 #'
-#' @seealso \url{https://github.com/lshpaner/kfreR}
+#' @seealso \url{https://github.com/lshpaner/kfre_r}
 #' @docType package
 #' @name kfre
 "_PACKAGE"
