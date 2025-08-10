@@ -18,3 +18,9 @@
 
 ## Reverse dependencies
 * None.
+
+
+## R-hub
+* ubuntu-release: OK
+* windows (R-devel): OK
+* macOS-arm64 (R-devel): OK
