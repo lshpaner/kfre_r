@@ -6,7 +6,7 @@ NULL
 #'
 #' @param age Numeric age in years.
 #' @param sex Integer sex indicator, 1 for male, 0 for female.
-#' @param eGFR Estimated glomerular filtration rate, mL/min/1.73 m^2.
+#' @param eGFR Estimated glomerular filtration rate, mL/min/1.73 \eqn{\text{m}^{2}}.
 #' @param uACR Urine albumin to creatinine ratio, mg/g.
 #' @param is_north_american Logical, patient from a North American cohort.
 #' @param dm Optional integer diabetes indicator, 1 yes, 0 no.

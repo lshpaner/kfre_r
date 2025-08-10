@@ -24,7 +24,7 @@ risk_pred_core(
 
 \item{sex}{Integer sex indicator, 1 for male, 0 for female.}
 
-\item{eGFR}{Estimated glomerular filtration rate, mL/min/1.73 m^2.}
+\item{eGFR}{Estimated glomerular filtration rate, mL/min/1.73 \eqn{\text{m}^{2}}.}
 
 \item{uACR}{Urine albumin to creatinine ratio, mg/g.}
 
