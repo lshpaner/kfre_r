@@ -36,14 +36,14 @@
 ## Installation
 
 ```r
-install.packages("kfreR")
+install.packages("kfre")
 ```
 
 ## GitHub (Development)
 
 ```r
 # install.packages("remotes")
-remotes::install_github("YOUR_GITHUB_USERNAME/kfreR")
+remotes::install_github("lshpaner/kfre")
 ```
 
 ## Dependencies
