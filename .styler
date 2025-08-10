@@ -1,0 +1,9 @@
+styler::tidyverse_style(
+  strict = TRUE,
+  indent_by = 2
+) %>%
+  styler::specify_decimal_separator(sep = ".") %>%
+  styler::specify_math_token_spacing(zero = "before") %>%
+  styler::specify_line_break(
+    line_break = 80
+  )

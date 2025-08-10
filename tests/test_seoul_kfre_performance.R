@@ -8,7 +8,7 @@ suppressPackageStartupMessages({
   if (requireNamespace("devtools", quietly = TRUE)) {
     try(devtools::load_all(quiet = TRUE), silent = TRUE)
   }
-  library(kfreR)
+  library(kfre)
 })
 
 message("== kfreR Seoul KFRE runner ==")
@@ -20,7 +20,8 @@ paths <- c(
 )
 path <- paths[file.exists(paths)][1]
 if (is.na(path)) {
-  stop("Could not find 'data/kfre_3_5_preds.xlsx'. Put the file under ./data/ and rerun.")
+  stop("Could not find 'data/kfre_3_5_preds.xlsx'.
+       Put the file under ./data/ and rerun.")
 }
 message(sprintf("Reading: %s", normalizePath(path, winslash = "/")))
 
@@ -31,7 +32,12 @@ stopifnot(is.data.frame(df), nrow(df) > 0L)
 # 3) Detect available outcome years and KFRE columns
 years_avail <- integer()
 for (yr in c(2L, 5L)) {
-  if (any(grepl(sprintf(".*%d_year_outcome$", yr), names(df)))) years_avail <- c(years_avail, yr)
+  if (any(grepl(
+    sprintf(".*%d_year_outcome$", yr),
+    names(df)
+  ))) {
+    years_avail <- c(years_avail, yr)
+  }
 }
 if (length(years_avail) == 0L) {
   stop("No '*_year_outcome' columns found. Expected something like '2_year_outcome' or '5_year_outcome'.")
@@ -39,7 +45,10 @@ if (length(years_avail) == 0L) {
 
 vars_avail <- integer()
 for (nv in c(4L, 6L, 8L)) {
-  has_any <- any(grepl(sprintf("^kfre_%dvar_(%s)year$", nv, paste(years_avail, collapse = "|")), names(df)))
+  has_any <- any(grepl(sprintf(
+    "^kfre_%dvar_(%s)year$",
+    nv, paste(years_avail, collapse = "|")
+  ), names(df)))
   if (has_any) vars_avail <- c(vars_avail, nv)
 }
 if (length(vars_avail) == 0L) {
@@ -50,7 +59,10 @@ message(sprintf("Detected outcome years: %s", paste(years_avail, collapse = ", "
 message(sprintf("Detected KFRE models: %s vars", paste(vars_avail, collapse = ", ")))
 
 # 3a) Ensure numeric types for relevant columns if Excel read them as character
-num_candidates <- unlist(lapply(vars_avail, function(nv) sprintf("kfre_%dvar_%dyear", nv, years_avail)))
+num_candidates <- unlist(lapply(
+  vars_avail,
+  function(nv) sprintf("kfre_%dvar_%dyear", nv, years_avail)
+))
 num_candidates <- c(num_candidates, sprintf("%d_year_outcome", years_avail))
 num_candidates <- intersect(num_candidates, names(df))
 if (length(num_candidates)) {
@@ -63,11 +75,20 @@ if (length(num_candidates)) {
 
 # 4) Optional feature engineering if present
 if (all(c("esrd_flag", "duration_days") %in% names(df))) {
-  df <- class_esrd_outcome(df, col = "esrd_flag", years = 2, duration_col = "duration_days", create_years_col = TRUE)
+  df <- class_esrd_outcome(df,
+    col = "esrd_flag",
+    years = 2,
+    duration_col = "duration_days",
+    create_years_col = TRUE
+  )
 }
 
 if ("eGFR" %in% names(df)) {
-  df <- class_ckd_stages(df, egfr_col = "eGFR", stage_col = "ckd_stage", combined_stage_col = "ckd_stage_3_5")
+  df <- class_ckd_stages(df,
+    egfr_col = "eGFR",
+    stage_col = "ckd_stage",
+    combined_stage_col = "ckd_stage_3_5"
+  )
 }
 
 # 5) Compute and print metrics
@@ -87,14 +108,14 @@ cat("\n== Plotting ROC and PR to Plots pane ==\n")
 invisible(
   plot_kfre_metrics(
     df,
-    num_vars = c(4, 6),            # overlay 4 and 6 on the same axes
+    num_vars = c(4, 6), # overlay 4 and 6 on the same axes
     mode = "plot",
     show_years = years_avail,
     plot_type = "all_plots",
-    plot_combinations = TRUE,      # overlay models
+    plot_combinations = TRUE, # overlay models
     save_plots = FALSE,
-    open_new_device = FALSE,       # keep in Plots pane
-    fig_size = c(15, 4)            # RStudio pane may stretch, adjust pane or size as needed
+    open_new_device = FALSE, # keep in Plots pane
+    fig_size = c(15, 4) # RStudio pane may stretch, adjust pane or size as needed
   )
 )
 
@@ -117,7 +138,7 @@ invisible(
     image_path_png = out_png,
     image_path_svg = out_svg,
     image_prefix = "seoul_kfre",
-    fig_size = c(8, 8),
+    fig_size = c(15, 4),
     open_new_device = FALSE
   )
 )

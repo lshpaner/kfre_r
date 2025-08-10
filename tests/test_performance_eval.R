@@ -2,7 +2,7 @@
 # Demo runner for perform_eval functions. Shows plots and prints tables.
 
 suppressPackageStartupMessages({
-  library(kfreR)
+  library(kfre)
 })
 
 set.seed(123)
@@ -93,9 +93,9 @@ invisible(
     image_path_png = out_dir_png,
     image_path_svg = out_dir_svg,
     image_prefix = "kfre_demo",
-    fig_size = c(8,6),
+    fig_size = c(8, 6),
     decimal_places = 3,
-    open_new_device  = FALSE
+    open_new_device = FALSE
   )
 )
 

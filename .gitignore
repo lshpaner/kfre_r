@@ -1,1 +1,30 @@
 data/
+# R session junk
+.Rhistory
+.Rapp.history
+.RData
+.RDataTmp
+.Ruserdata
+
+# RStudio
+.Rproj.user/
+*.Rproj
+
+# Package build outputs
+*.tar.gz
+*.Rcheck/
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Optional: keep local only
+.RProfile
+
+# If you generate a site or vignettes later
+docs/
+pkgdown/
+inst/doc/
+vignettes/*.html
+vignettes/*.pdf
+

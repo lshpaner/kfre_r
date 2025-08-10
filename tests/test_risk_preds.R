@@ -9,9 +9,13 @@ devtools::test()
 
 
 ## 1) Sanity check and dependencies
-stopifnot(file.exists("DESCRIPTION"))
+suppressPackageStartupMessages(library(rprojroot))
+pkg_root <- rprojroot::find_root(rprojroot::is_r_package)
+stopifnot(file.exists(file.path(pkg_root, "DESCRIPTION")))
 need <- c("devtools", "testthat", "R6")
-to_install <- need[!vapply(need, requireNamespace, logical(1), quietly = TRUE)]
+to_install <- need[!vapply(need, requireNamespace, logical(1),
+  quietly = TRUE
+)]
 if (length(to_install)) install.packages(to_install)
 
 ## 2) Load the package code
@@ -163,7 +167,9 @@ expected_cols <- c(
   "kfre_6var_2year", "kfre_6var_5year",
   "kfre_8var_2year", "kfre_8var_5year"
 )
-cat("new columns:", paste(intersect(expected_cols, names(toy_kfre)), collapse = ", "), "\n")
+cat("new columns:", paste(intersect(expected_cols, names(toy_kfre)),
+  collapse = ", "
+), "\n")
 stopifnot(all(expected_cols %in% names(toy_kfre)))
 
 # Compare with aligned rounding, zero tolerance
@@ -198,7 +204,7 @@ abs_ok <- function(a, b, tol) {
 }
 
 stopifnot(abs_ok(p4, expected_p4, 1e-4))
-stopifnot(abs_ok(p6, expected_p6, 1e-4))  # first element differs by ~4.5e-05
+stopifnot(abs_ok(p6, expected_p6, 1e-4)) # first element differs by ~4.5e-05
 stopifnot(abs_ok(p8, expected_p8, 1e-4))
 
 cat("\nAssertions passed, core API matches expectations (absolute tol 1e-4).\n")
@@ -227,8 +233,15 @@ conv_out <- perform_conversions(
   phosphate_col = "Phosphate_val",
   albumin_col = "Albumin_val"
 )
-stopifnot(all(c("uPCR_mg_g","Calcium_mg_dl","Phosphate_mg_dl","Albumin_g_dl") %in% names(conv_out)))
-stopifnot(isTRUE(all.equal(conv_out$Albumin_g_dl, df_conv$Albumin_val * 0.1, tolerance = 1e-12)))
+stopifnot(all(c(
+  "uPCR_mg_g",
+  "Calcium_mg_dl",
+  "Phosphate_mg_dl",
+  "Albumin_g_dl"
+) %in% names(conv_out)))
+stopifnot(isTRUE(all.equal(conv_out$Albumin_g_dl, df_conv$Albumin_val * 0.1,
+  tolerance = 1e-12
+)))
 stopifnot(isTRUE(all(conv_out$uPCR_mg_g > df_conv$uPCR_val)))
 
 ## class_esrd_outcome and class_ckd_stages
@@ -237,26 +250,34 @@ df_o <- data.frame(
   ESRD_flag = c(1, 1),
   days = c(200, 1000)
 )
-df_o <- class_esrd_outcome(df_o, col = "ESRD_flag", years = 2, duration_col = "days",
-                           prefix = "esrd", create_years_col = TRUE)
+df_o <- class_esrd_outcome(df_o,
+  col = "ESRD_flag", years = 2, duration_col = "days",
+  prefix = "esrd", create_years_col = TRUE
+)
 stopifnot("ESRD_duration_years" %in% names(df_o))
 stopifnot("esrd_2_year_outcome" %in% names(df_o))
 
-df_o <- class_ckd_stages(df_o, egfr_col = "eGFR",
-                         stage_col = "stage", combined_stage_col = "stage_combined")
-stopifnot(all(df_o$stage %in% c("CKD Stage 1","CKD Stage 2","CKD Stage 3a",
-                                "CKD Stage 3b","CKD Stage 4","CKD Stage 5","Not Classified")))
-stopifnot(all(df_o$stage_combined %in% c("CKD Stage 3 - 5","Not Classified")))
+df_o <- class_ckd_stages(df_o,
+  egfr_col = "eGFR",
+  stage_col = "stage", combined_stage_col = "stage_combined"
+)
+stopifnot(all(df_o$stage %in% c(
+  "CKD Stage 1", "CKD Stage 2", "CKD Stage 3a",
+  "CKD Stage 3b", "CKD Stage 4", "CKD Stage 5", "Not Classified"
+)))
+stopifnot(all(df_o$stage_combined %in% c("CKD Stage 3 - 5", "Not Classified")))
 
 ## upcr_uacr quick check
 df_pcr <- data.frame(
-  sex = c("female","male","female"),
-  dm = c(1,0,1),
-  htn = c(1,1,0),
+  sex = c("female", "male", "female"),
+  dm = c(1, 0, 1),
+  htn = c(1, 1, 0),
   pcr = c(150, 600, 50)
 )
-acr <- upcr_uacr(df_pcr, sex_col = "sex", diabetes_col = "dm",
-                 hypertension_col = "htn", upcr_col = "pcr", female_str = "female")
+acr <- upcr_uacr(df_pcr,
+  sex_col = "sex", diabetes_col = "dm",
+  hypertension_col = "htn", upcr_col = "pcr", female_str = "female"
+)
 stopifnot(length(acr) == nrow(df_pcr))
 
 cat("\nAll extra helper checks passed.\n")
