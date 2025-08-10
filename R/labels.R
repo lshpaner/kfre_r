@@ -1,3 +1,16 @@
+#' Label CKD stages or ESRD outcomes.
+#'
+#' @param df 
+#' @param col 
+#' @param years 
+#' @param duration_col 
+#' @param prefix 
+#' @param create_years_col 
+#' @return 
+#' @export
+#' @examples
+#' # class_esrd_outcome example
+#' # class_esrd_outcome()
 class_esrd_outcome <- function(df, col, years, duration_col, prefix = NULL,
                                create_years_col = TRUE) {
   years_col <- duration_col
@@ -14,6 +27,17 @@ class_esrd_outcome <- function(df, col, years, duration_col, prefix = NULL,
   df[[cname]] <- ifelse(df[[col]] == 1 & df[[years_col]] <= years, 1, 0)
   df
 }
+#' Label CKD stages or ESRD outcomes.
+#'
+#' @param df 
+#' @param egfr_col 
+#' @param stage_col 
+#' @param combined_stage_col 
+#' @return 
+#' @export
+#' @examples
+#' # class_ckd_stages example
+#' # class_ckd_stages()
 
 class_ckd_stages <- function(df, egfr_col = "eGFR", stage_col = NULL,
                              combined_stage_col = NULL) {

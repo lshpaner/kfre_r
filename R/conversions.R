@@ -1,3 +1,17 @@
+#' Perform unit and code conversions used by KFRE helpers.
+#'
+#' @param df 
+#' @param reverse 
+#' @param convert_all 
+#' @param upcr_col 
+#' @param calcium_col 
+#' @param phosphate_col 
+#' @param albumin_col 
+#' @return 
+#' @export
+#' @examples
+#' # perform_conversions example
+#' # perform_conversions()
 perform_conversions <- function(
     df,
     reverse = FALSE,

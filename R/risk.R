@@ -1,3 +1,22 @@
+#' Kidney Failure Risk Equation predictions and data frame helper.
+#'
+#' @param age 
+#' @param sex 
+#' @param eGFR 
+#' @param uACR 
+#' @param is_north_american 
+#' @param dm 
+#' @param htn 
+#' @param albumin 
+#' @param phosphorous 
+#' @param bicarbonate 
+#' @param calcium 
+#' @param years 
+#' @return 
+#' @export
+#' @examples
+#' # risk_pred_core example
+#' # risk_pred_core()
 risk_pred_core <- function(age, sex, eGFR, uACR, is_north_american, dm = NULL,
                            htn = NULL, albumin = NULL, phosphorous = NULL,
                            bicarbonate = NULL, calcium = NULL, years = 2) {
@@ -101,6 +120,27 @@ RiskPredictor <- R6::R6Class(
     }
   )
 )
+#' Kidney Failure Risk Equation predictions and data frame helper.
+#'
+#' @param df 
+#' @param age_col 
+#' @param sex_col 
+#' @param eGFR_col 
+#' @param uACR_col 
+#' @param dm_col 
+#' @param htn_col 
+#' @param albumin_col 
+#' @param phosphorous_col 
+#' @param bicarbonate_col 
+#' @param calcium_col 
+#' @param num_vars 
+#' @param years 
+#' @param 5 
+#' @return 
+#' @export
+#' @examples
+#' # add_kfre_risk_col example
+#' # add_kfre_risk_col()
 add_kfre_risk_col <- function(df, age_col = NULL, sex_col = NULL, 
                               eGFR_col = NULL, uACR_col = NULL, dm_col = NULL, 
                               htn_col = NULL, albumin_col = NULL, 

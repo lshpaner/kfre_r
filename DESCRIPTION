@@ -7,7 +7,7 @@ Authors@R:
              family = "Shpaner",
              role = c("aut", "cre"),
              email = "lshpaner@ucla.edu"))
-Description: R implementation of Kidney Failure Risk Equation helpers plus dataset utilities.
+Description: R implementation of Kidney Failure Risk Equation Helpers, including vectorized and per person predictions, CKD stage labeling, uPCR to uACR conversion, evaluation utilities, and publication style ROC and Precision Recall plots.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -24,5 +24,5 @@ Suggests:
     rmarkdown,
     readxl
 Config/testthat/edition: 3
-URL: https://github.com/<your-org-or-user>/kfre
-BugReports: https://github.com/<your-org-or-user>/kfre/issues
+URL: https://github.com/lshpaner/kfre
+BugReports: https://github.com/lshpaner/kfre/issues
