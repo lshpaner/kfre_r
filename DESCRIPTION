@@ -1,0 +1,28 @@
+Package: kfre
+Type: Package
+Title: KFRE Risk Prediction Tools (R)
+Version: 0.0.1
+Authors@R:
+    c(person(given = "Leonid",
+             family = "Shpaner",
+             role = c("aut", "cre"),
+             email = "lshpaner@ucla.edu"))
+Description: R implementation of Kidney Failure Risk Equation helpers plus dataset utilities.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 3.6)
+Imports:
+    stats,
+    graphics,
+    grDevices,
+    ggplot2
+Suggests:
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    readxl
+Config/testthat/edition: 3
+URL: https://github.com/<your-org-or-user>/kfre
+BugReports: https://github.com/<your-org-or-user>/kfre/issues
