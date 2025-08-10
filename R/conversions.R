@@ -1,12 +1,12 @@
 #' Perform unit and code conversions used by KFRE helpers.
 #'
-#' @param df 
-#' @param reverse 
-#' @param convert_all 
-#' @param upcr_col 
-#' @param calcium_col 
-#' @param phosphate_col 
-#' @param albumin_col 
+#' @param df Data frame with source columns to convert.
+#' @param reverse Logical, reverse the conversion if `TRUE`.
+#' @param convert_all Logical, convert all known columns if `TRUE`.
+#' @param upcr_col Column name for urine protein creatinine ratio.
+#' @param calcium_col Optional column for serum calcium, mg/dL.
+#' @param phosphate_col Optional column for serum phosphorus, mg/dL.
+#' @param albumin_col Optional column for serum albumin, g/dL.
 #' @return A data frame with converted columns.
 #' @export
 #' @examples

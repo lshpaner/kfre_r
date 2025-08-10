@@ -15,19 +15,19 @@ perform_conversions(
 )
 }
 \arguments{
-\item{df}{}
+\item{df}{Data frame with source columns to convert.}
 
-\item{reverse}{}
+\item{reverse}{Logical, reverse the conversion if \code{TRUE}.}
 
-\item{convert_all}{}
+\item{convert_all}{Logical, convert all known columns if \code{TRUE}.}
 
-\item{upcr_col}{}
+\item{upcr_col}{Column name for urine protein creatinine ratio.}
 
-\item{calcium_col}{}
+\item{calcium_col}{Optional column for serum calcium, mg/dL.}
 
-\item{phosphate_col}{}
+\item{phosphate_col}{Optional column for serum phosphorus, mg/dL.}
 
-\item{albumin_col}{}
+\item{albumin_col}{Optional column for serum albumin, g/dL.}
 }
 \value{
 A data frame with converted columns.

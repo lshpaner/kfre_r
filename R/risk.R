@@ -1,3 +1,5 @@
+#' @importFrom R6 R6Class
+NULL
 #' KFRE risk prediction for a single person
 #'
 #' Computes the Kidney Failure Risk Equation probability at 2 or 5 years.
@@ -19,7 +21,6 @@
 #' @examples
 #' risk_pred_core(60, 1, 45, 120, TRUE, dm = 1, htn = 1, years = 2)
 #' @export
-
 risk_pred_core <- function(age, sex, eGFR, uACR, is_north_american, dm = NULL,
                            htn = NULL, albumin = NULL, phosphorous = NULL,
                            bicarbonate = NULL, calcium = NULL, years = 2) {
@@ -165,7 +166,6 @@ RiskPredictor <- R6::R6Class(
 #' @examples
 #' # add_kfre_risk_col(df, "age", "sex", "eGFR", "uACR", num_vars = 6, years = 2)
 #' @export
-
 add_kfre_risk_col <- function(df, age_col = NULL, sex_col = NULL,
                               eGFR_col = NULL, uACR_col = NULL, dm_col = NULL,
                               htn_col = NULL, albumin_col = NULL,

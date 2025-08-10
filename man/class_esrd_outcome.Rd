@@ -14,17 +14,17 @@ class_esrd_outcome(
 )
 }
 \arguments{
-\item{df}{}
+\item{df}{Data frame with an eGFR column.}
 
-\item{col}{}
+\item{col}{Column name with ESRD event indicator, 0 or 1.}
 
-\item{years}{}
+\item{years}{Integer horizon, 2 or 5.}
 
-\item{duration_col}{}
+\item{duration_col}{Column name with follow up time in days.}
 
-\item{prefix}{}
+\item{prefix}{Optional prefix for the derived outcome column.}
 
-\item{create_years_col}{}
+\item{create_years_col}{Logical, add a \verb{<years>_year_outcome} column.}
 }
 \value{
 The modified data frame with added label columns.

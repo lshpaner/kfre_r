@@ -2,24 +2,18 @@
 % Please edit documentation in R/utils.R
 \name{apply_precision}
 \alias{apply_precision}
-\title{Apply rounding with optional precision}
+\title{Apply precision (round helper)}
 \usage{
 apply_precision(x, n = NULL)
 }
 \arguments{
-\item{x}{Numeric vector to be rounded.}
+\item{x}{Numeric vector.}
 
-\item{n}{Integer number of digits to round to, or NULL to skip rounding.}
+\item{n}{Integer number of digits to keep. If NULL, return x unchanged.}
 }
 \value{
-Numeric vector with rounding applied when \code{n} is not NULL.
+Numeric vector rounded to \code{n}.
 }
 \description{
-Rounds a numeric vector to a given number of decimal places,
-or returns it unchanged if \code{n} is NULL.
+Simple wrapper around base \code{round()} used by tests and examples.
 }
-\examples{
-apply_precision(c(1.2345, 6.789), 2)
-apply_precision(c(1.2345, 6.789), NULL)
-}
-\keyword{internal}

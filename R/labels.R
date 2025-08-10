@@ -1,11 +1,11 @@
 #' Label CKD stages or ESRD outcomes.
 #'
-#' @param df 
-#' @param col 
-#' @param years 
-#' @param duration_col 
-#' @param prefix 
-#' @param create_years_col 
+#' @param df Data frame with an eGFR column.
+#' @param col Column name with ESRD event indicator, 0 or 1.
+#' @param years Integer horizon, 2 or 5.
+#' @param duration_col Column name with follow up time in days.
+#' @param prefix Optional prefix for the derived outcome column.
+#' @param create_years_col Logical, add a `<years>_year_outcome` column.
 #' @return The modified data frame with added label columns.
 #' @export
 #' @examples
@@ -29,10 +29,10 @@ class_esrd_outcome <- function(df, col, years, duration_col, prefix = NULL,
 }
 #' Label CKD stages or ESRD outcomes.
 #'
-#' @param df 
-#' @param egfr_col 
-#' @param stage_col 
-#' @param combined_stage_col 
+#' @param df Data frame input.
+#' @param egfr_col Column name for eGFR, mL/min/1.73 m^2.
+#' @param stage_col Output column name for detailed CKD stages.
+#' @param combined_stage_col Output column for combined stages 3 to 5.
 #' @return The modified data frame with added label columns.
 #' @export
 #' @examples

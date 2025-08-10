@@ -259,28 +259,28 @@ eval_kfre_metrics <- function(df,
 # -----------------------------------------------------------
 #' Plot ROC and Precision Recall curves for KFRE variants
 #'
-#' Draws ROC and PR curves for the selected models and horizons and returns
-#' a list of ggplot objects when `mode` is "both". When `mode` is not "both",
-#' the plots are drawn and the function returns `NULL` invisibly.
+#' Draws ROC and PR curves for the selected models and horizons. When
+#' `mode` is "both", returns a list of ggplot objects. Otherwise, draws
+#' the plots and returns `NULL` invisibly.
 #'
 #' @param df Data frame containing model probabilities and outcomes.
 #' @param num_vars Integer vector, KFRE model sizes to plot, any of 4, 6, 8.
-#' @param fig_size Numeric length 2, width and height passed to the device.
+#' @param fig_size Numeric length 2, plot device width and height.
 #' @param mode Character, "both" to return plots, otherwise draw only.
-#' @param image_path_png Optional output directory for PNG files.
-#' @param image_path_svg Optional output directory for SVG files.
-#' @param image_prefix Optional filename prefix for saved plots.
-#' @param bbox_inches Character, passed through for saving.
-#' @param plot_type Character, select plots to render.
+#' @param image_path_png Optional directory to save PNGs.
+#' @param image_path_svg Optional directory to save SVGs.
+#' @param image_prefix Optional filename prefix.
+#' @param bbox_inches Character, passed through when saving.
+#' @param plot_type Character, which plots to render.
 #' @param save_plots Logical, save plots to disk if TRUE.
 #' @param show_years Integer vector, horizons to show, any of 2, 5.
-#' @param plot_combinations Logical, if TRUE produce pairwise overlays.
-#' @param show_subplots Logical, arrange plots in subplots when TRUE.
-#' @param decimal_places Integer digits to round annotations.
-#' @param open_new_device Logical, open a new device before plotting.
-#' @return List of ggplot objects when mode == "both", otherwise NULL.
+#' @param plot_combinations Logical, if TRUE draw pairwise overlays.
+#' @param show_subplots Logical, arrange subplots when TRUE.
+#' @param decimal_places Integer digits for annotations.
+#' @param open_new_device Logical, open device before plotting.
+#'
+#' @return List of ggplot objects when `mode == "both"`, else `NULL`.
 #' @export
-
 plot_kfre_metrics <- function(df,
                               num_vars,
                               fig_size = c(12, 6),
@@ -365,7 +365,7 @@ plot_kfre_metrics <- function(df,
   }
 
   # ---- helpers ----
-#' @noRd
+  #' @noRd
   auc_fast <- function(yt, yp) {
     o <- order(yp, decreasing = TRUE)
     y <- as.integer(yt[o] > 0)
@@ -379,7 +379,7 @@ plot_kfre_metrics <- function(df,
   }
 
   # sklearn-like AP, no envelope
-#' @noRd
+  #' @noRd
   ap_like_sklearn <- function(yt, yp) {
     if (length(yt) == 0L) {
       return(NA_real_)
@@ -408,14 +408,14 @@ plot_kfre_metrics <- function(df,
   }
 
   # base R label wrapper so we avoid adding suggests
-#' @noRd
+  #' @noRd
   label_wrap <- function(x, width = 28) {
     vapply(
       x, function(s) paste(strwrap(s, width = width), collapse = "\n"),
       character(1)
     )
   }
-#' @noRd
+  #' @noRd
 
   make_roc_df <- function(curr_nums) {
     lst <- list()
@@ -442,7 +442,7 @@ plot_kfre_metrics <- function(df,
     }
     do.call(rbind, lst)
   }
-#' @noRd
+  #' @noRd
 
   make_pr_df <- function(curr_nums) {
     lst <- list()
@@ -481,21 +481,21 @@ plot_kfre_metrics <- function(df,
   gg <- ggplot2::ggplot
 
   # dynamic legend columns
-#' @noRd
+  #' @noRd
   legend_ncol_for <- function(n_items) {
     # square-ish grid: 2 columns up to 4 items, 3 up to 9, then 4
     if (n_items <= 4) 2 else if (n_items <= 9) 3 else 4
   }
 
   # choose color palette per plot using Dark2 hues
-#' @noRd
+  #' @noRd
   color_scale_for <- function(n_items) {
     ggplot2::scale_color_manual(
       values = grDevices::hcl.colors(n_items, palette = "Dark2"),
       labels = function(l) label_wrap(l, width = if (fig_size[1] <= 8) 26 else 34)
     )
   }
-#' @noRd
+  #' @noRd
 
   build_roc_plot <- function(dat, title_suffix) {
     n_items <- length(unique(dat$model))
@@ -524,7 +524,7 @@ plot_kfre_metrics <- function(df,
       )
     p + ggplot2::guides(color = ggplot2::guide_legend(ncol = legend_ncol_for(n_items)))
   }
-#' @noRd
+  #' @noRd
 
   build_pr_plot <- function(dat, title_suffix) {
     n_items <- length(unique(dat$model))

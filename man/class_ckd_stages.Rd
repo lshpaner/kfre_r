@@ -12,13 +12,13 @@ class_ckd_stages(
 )
 }
 \arguments{
-\item{df}{}
+\item{df}{Data frame input.}
 
-\item{egfr_col}{}
+\item{egfr_col}{Column name for eGFR, mL/min/1.73 m^2.}
 
-\item{stage_col}{}
+\item{stage_col}{Output column name for detailed CKD stages.}
 
-\item{combined_stage_col}{}
+\item{combined_stage_col}{Output column for combined stages 3 to 5.}
 }
 \value{
 The modified data frame with added label columns.

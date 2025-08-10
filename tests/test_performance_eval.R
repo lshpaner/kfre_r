@@ -1,3 +1,4 @@
+testthat::skip_on_cran()
 # scripts/run_perform_eval_demo.R
 # Demo runner for perform_eval functions. Shows plots and prints tables.
 
