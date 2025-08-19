@@ -1,6 +1,4 @@
-# kfre 0.0.3
-
-# kfre 0.0.1 (2025-08-10)
+# kfre 0.0.1
 
 Initial CRAN submission.
 
