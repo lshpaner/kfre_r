@@ -1,7 +1,7 @@
 Type: Package
 Package: kfre
 Title: Title: Kidney Failure Risk Equation (KFRE) Tools
-Version: 0.0.1
+Version: 0.0.2
 Authors@R:
     c(person("Leonid", "Shpaner",
              email = "lshpaner@ucla.edu",

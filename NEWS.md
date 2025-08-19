@@ -1,3 +1,5 @@
+# kfre 0.0.2
+
 # kfre 0.0.1
 
 Initial CRAN submission.
