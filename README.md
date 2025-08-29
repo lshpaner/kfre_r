@@ -2,6 +2,7 @@
 
 [![CRAN status](https://www.r-pkg.org/badges/version/kfre)](https://CRAN.R-project.org/package=kfre)
 [![CRAN checks](https://badges.cranchecks.info/summary/kfre.svg)](https://cran.r-project.org/web/checks/check_results_kfre.html)
+[![DOI](https://zenodo.org/badge/1035296963.svg)](https://doi.org/10.5281/zenodo.16990646)
 
 ## Table of Contents
 
