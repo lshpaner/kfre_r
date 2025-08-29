@@ -184,7 +184,18 @@ RiskPredictor <- R6::R6Class(
 #' \doi{10.1001/jama.2015.18202}
 #'
 #' @examples
-#' # add_kfre_risk_col(df, "age", "sex", "eGFR", "uACR", num_vars = 6, years = 2)
+#' df <- data.frame(
+#'   age = 60L, sex = 1L, eGFR = 30, uACR = 500,
+#'   dm = 1L, htn = 0L, albumin = 40,
+#'   phosphorous = 1.1, bicarbonate = 24, calcium = 9.2
+#' )
+#'
+#' add_kfre_risk_col(
+#'   df,
+#'   age_col = "age", sex_col = "sex",
+#'   eGFR_col = "eGFR", uACR_col = "uACR",
+#'   num_vars = 4, years = 2
+#' )
 #' @export
 add_kfre_risk_col <- function(df, age_col = NULL, sex_col = NULL,
                               eGFR_col = NULL, uACR_col = NULL, dm_col = NULL,

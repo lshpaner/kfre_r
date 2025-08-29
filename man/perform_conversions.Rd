@@ -36,6 +36,11 @@ A data frame with converted columns.
 Perform unit and code conversions used by KFRE helpers.
 }
 \examples{
-# perform_conversions example
-# perform_conversions()
+df <- data.frame(
+  upcr = c(100, 400),         # mg/g (or g/g scaled accordingly)
+  albumin = c(40, 38),        # g/L
+  phosphorous = c(1.1, 1.3),  # mmol/L
+  calcium = c(9.2, 8.8)       # mg/dL
+)
+perform_conversions(df)
 }

@@ -27,6 +27,6 @@ The modified data frame with added label columns.
 Label CKD stages or ESRD outcomes.
 }
 \examples{
-# class_ckd_stages example
-# class_ckd_stages()
+df <- data.frame(eGFR = c(92, 58, 42, 28, 12))
+class_ckd_stages(df, egfr_col = "eGFR")
 }

@@ -9,8 +9,18 @@
 #' @return The modified data frame with added label columns.
 #' @export
 #' @examples
-#' # class_esrd_outcome example
-#' # class_esrd_outcome()
+#' df <- data.frame(
+#'   eGFR = c(90, 45, 25, 10),
+#'   esrd = c(0, 0, 1, 0),
+#'   followup_days = c(365, 800, 500, 1200)
+#' )
+#' class_esrd_outcome(
+#'   df,
+#'   col = "esrd",
+#'   years = 2,
+#'   duration_col = "followup_days"
+#' )
+#' 
 class_esrd_outcome <- function(df, col, years, duration_col, prefix = NULL,
                                create_years_col = TRUE) {
   years_col <- duration_col
@@ -36,9 +46,8 @@ class_esrd_outcome <- function(df, col, years, duration_col, prefix = NULL,
 #' @return The modified data frame with added label columns.
 #' @export
 #' @examples
-#' # class_ckd_stages example
-#' # class_ckd_stages()
-
+#' df <- data.frame(eGFR = c(92, 58, 42, 28, 12))
+#' class_ckd_stages(df, egfr_col = "eGFR")
 class_ckd_stages <- function(df, egfr_col = "eGFR", stage_col = NULL,
                              combined_stage_col = NULL) {
   if (!is.null(stage_col)) {

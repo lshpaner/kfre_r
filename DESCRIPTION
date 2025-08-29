@@ -1,6 +1,6 @@
 Type: Package
 Package: kfre
-Title: Title: Kidney Failure Risk Equation (KFRE) Tools
+Title: Kidney Failure Risk Equation (KFRE) Tools
 Version: 0.0.2
 Authors@R:
     c(person("Leonid", "Shpaner",
@@ -20,24 +20,12 @@ Description: Implements the Kidney Failure Risk Equation
 License: MIT + file LICENSE
 URL: https://github.com/lshpaner/kfre_r, https://lshpaner.github.io/kfre_r/
 BugReports: https://github.com/lshpaner/kfre_r/issues
-Depends:
-    R (>= 2.10)
-Imports:
-    ggplot2,
-    grDevices,
-    R6
-Suggests:
-    devtools,
-    knitr,
-    readxl,
-    rmarkdown,
-    rprojroot,
-    spelling,
-    svglite,
+Depends: R (>= 3.6)
+Imports: ggplot2, grDevices, R6
+Suggests: devtools, knitr, readxl, rmarkdown, rprojroot, spelling, svglite,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
-LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr

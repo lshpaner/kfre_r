@@ -1,4 +1,7 @@
-<img src="https://raw.githubusercontent.com/lshpaner/kfre_r/refs/heads/main/assets/kfre_logo_r.svg" width="200" style="border: none; outline: none; box-shadow: none;" oncontextmenu="return false;">
+<picture> <img src="https://raw.githubusercontent.com/lshpaner/kfre_r/refs/heads/main/assets/kfre_logo_r.svg" width="200" style="border: none; outline: none; box-shadow: none;" oncontextmenu="return false;"> </picture>
+
+[![CRAN status](https://www.r-pkg.org/badges/version/kfre)](https://CRAN.R-project.org/package=kfre)
+[![CRAN checks](https://badges.cranchecks.info/summary/kfre.svg)](https://cran.r-project.org/web/checks/check_results_kfre.html)
 
 ## Table of Contents
 

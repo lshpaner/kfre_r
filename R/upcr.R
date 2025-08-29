@@ -45,9 +45,14 @@
 #'
 #'
 #' @examples
-#' \dontrun{
-#' df$uacr <- upcr_uacr(df, "sex", "diabetes", "hypertension", "upcr")
-#' }
+#' df <- data.frame(
+#'   sex = c("female", "male"),
+#'   diabetes = c(1, 0),
+#'   hypertension = c(0, 1),
+#'   upcr = c(100, 400)  # mg/g (or same ratio units)
+#' )
+#' upcr_uacr(df, "sex", "diabetes", "hypertension", "upcr")
+#' 
 #'
 #' @export
 #'
