@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   getting-started: getting-started.html
-last_built: 2025-08-29T02:50Z
+last_built: 2025-08-29T02:57Z
 urls:
   reference: https://lshpaner.github.io/kfre_r/reference
   article: https://lshpaner.github.io/kfre_r/articles
