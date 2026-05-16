@@ -3,6 +3,7 @@
 ## Quick start
 
 ``` r
+
 toy <- data.frame(
   age=c(55,72), sex_txt=c("male","female"),
   eGFR=c(45,28), uACR=c(120,800),
@@ -23,6 +24,7 @@ rp$predict_kfre(years=2, is_north_american=TRUE, num_vars=4)
 ```
 
 ``` r
+
 toy2 <- kfre::add_kfre_risk_col(toy, "age","sex_txt","eGFR","uACR",
                                 dm_col="dm", htn_col="htn",
                                 albumin_col="albumin", phosphorous_col="phosphorous",

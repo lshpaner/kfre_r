@@ -47,12 +47,14 @@ Equation (KFRE), including:
 ## Installation
 
 ``` r
+
 install.packages("kfre")
 ```
 
 ## GitHub (Development)
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("lshpaner/kfre_r")
 ```
@@ -67,6 +69,7 @@ tests/vignettes: `testthat (>= 3.0.0)`, `knitr`, `rmarkdown`
 ### 1. Toy data
 
 ``` r
+
 toy <- data.frame(
   age = c(55, 72),
   sex_txt = c("male", "female"),
@@ -98,6 +101,7 @@ cols <- list(
 ### 2. Vectorized predictions with `RiskPredictor`
 
 ``` r
+
 rp <- RiskPredictor$new(df = toy, columns = cols)
 
 # 4-variable KFRE (2-year), North America constants
@@ -126,6 +130,7 @@ p8_2y
 ### 3. Single-person predictions
 
 ``` r
+
 # Male, 55yo, 2-year risk (4-var)
 rp$kfre_person(
   age = 55, is_male = TRUE,
@@ -153,6 +158,7 @@ rp$kfre_person(
 ### 4. Add KFRE risk columns to a `data.frame`
 
 ``` r
+
 toy_kfre <- add_kfre_risk_col(
   df = toy,
   age_col = "age",
@@ -182,6 +188,7 @@ head(toy_kfre)
 ### 5. CKD staging & ESRD outcome labels
 
 ``` r
+
 # ESRD outcome within 2 years (duration is in days → converted to years)
 out <- data.frame(
   eGFR = c(95, 25),
@@ -214,6 +221,7 @@ table(out$stage_combined)
 ### 6. uPCR → uACR conversion
 
 ``` r
+
 df_pcr <- data.frame(
   sex = c("female","male","female"),
   dm  = c(1,0,1),
@@ -242,6 +250,7 @@ Your data.frame must include:
   e.g. `kfre_4var_2year`
 
 ``` r
+
 met <- eval_kfre_metrics(
   df = toy_kfre,                 # must contain truth + prediction columns
   n_var_list = c(4, 6, 8),
@@ -256,6 +265,7 @@ met
 ### 8. Plot ROC / PR curves
 
 ``` r
+
 # Basic: compute & plot both ROC and PR (no files written)
 plot_kfre_metrics(
   df = toy_kfre,
@@ -283,6 +293,7 @@ plot_kfre_metrics(
 If you’ve cloned the repo:
 
 ``` r
+
 library(devtools)
 devtools::load_all(".")
 devtools::test()
