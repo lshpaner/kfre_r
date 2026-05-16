@@ -32,14 +32,3 @@ inst/doc
 /doc/
 /Meta/
 docs
-
-# paper
-paper/*.aux
-paper/*.bbl
-paper/*.blg
-paper/*.log
-paper/*.out
-paper/*.brf
-paper/RJwrapper.*
-paper/kfre-paper.log
-paper/initial_checks.log

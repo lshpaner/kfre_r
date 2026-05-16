@@ -1,9 +1,0 @@
-kfre
-ggplot2
-knitr
-palmerpenguins
-rmarkdown
-rjtools
-scales
-
-
